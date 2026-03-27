@@ -1,0 +1,360 @@
+export const MOCK_COURSES = [
+  {
+    _id: 'c1',
+    title: 'Complete React Developer Bootcamp 2024',
+    description:
+      'Master React from zero to production. Build real-world apps with hooks, Context API, React Router, and performance optimization patterns used at top tech companies.\n\nThis course takes you from the absolute basics of JSX to advanced patterns like compound components, render props, and custom hook libraries.',
+    instructor: { _id: 'i1', name: 'Sarah Chen', bio: 'Senior Engineer at Google · 10+ years React · Previously taught at Stanford CS.', avatar: null },
+    category:   'Web Development',
+    duration:   1440,
+    level:      'Beginner',
+    price:      4999,
+    rating:     4.9,
+    totalReviews: 2841,
+    enrolledStudents: Array(12400),
+    thumbnail:  'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80',
+    videoUrl:   'dQw4w9WgXcQ',
+    enrollmentStatus: 'open',
+    outcomes: [
+      'Build 5+ production React applications',
+      'Master all React Hooks deeply',
+      'Implement state management patterns',
+      'Deploy apps to Vercel and AWS',
+      'Write clean, maintainable component code',
+      'Optimize performance with useMemo & useCallback',
+    ],
+    curriculum: [
+      {
+        section: 'Getting Started',
+        lessons: [
+          { id: 'c1-l1', title: 'Course Overview & Roadmap',      duration: 8,  videoId: 'Tn6-PIqc4UM' },
+          { id: 'c1-l2', title: 'Dev Environment Setup',          duration: 12, videoId: 'SqcY0GlETPk' },
+          { id: 'c1-l3', title: 'Your First React App',           duration: 18, videoId: 'w7ejDZ8SWv8' },
+        ],
+      },
+      {
+        section: 'Core React',
+        lessons: [
+          { id: 'c1-l4', title: 'JSX Deep Dive',                  duration: 22, videoId: 'Cla1WwguArA' },
+          { id: 'c1-l5', title: 'Components & Props',             duration: 25, videoId: 'DLX62G4lc44' },
+          { id: 'c1-l6', title: 'useState Hook',                  duration: 20, videoId: 'O6P86uwfdR0' },
+          { id: 'c1-l7', title: 'Event Handling',                 duration: 16, videoId: 'dGcsHMXbSOA' },
+        ],
+      },
+      {
+        section: 'Advanced Patterns',
+        lessons: [
+          { id: 'c1-l8',  title: 'useEffect Deep Dive',           duration: 28, videoId: '0ZJgIjIuY7U' },
+          { id: 'c1-l9',  title: 'Building Custom Hooks',         duration: 24, videoId: 'J-g9ZJha8FE' },
+          { id: 'c1-l10', title: 'Context API & Global State',    duration: 30, videoId: 'lhMKvyLRWo0' },
+          { id: 'c1-l11', title: 'Performance Optimization',      duration: 26, videoId: 'wU06eTMQ6yI' },
+        ],
+      },
+      {
+        section: 'Real-World Projects',
+        lessons: [
+          { id: 'c1-l12', title: 'Build a Task Manager App',      duration: 45, videoId: 'W6HV5SC3TS8' },
+          { id: 'c1-l13', title: 'Build a Weather Dashboard',     duration: 40, videoId: 'GuA0_Z1llYU' },
+          { id: 'c1-l14', title: 'Build an E-Commerce Frontend',  duration: 55, videoId: '1eEnboVooiY' },
+        ],
+      },
+    ],
+    createdAt: '2024-01-15T00:00:00Z',
+  },
+  {
+    _id: 'c2',
+    title: 'Machine Learning & AI Fundamentals',
+    description:
+      'Dive deep into ML algorithms, neural networks, and practical AI applications. Go from theory to deployed models with hands-on Python projects.\n\nCovers everything from linear regression to transformers, with real datasets from Kaggle and deployment on cloud platforms.',
+    instructor: { _id: 'i2', name: 'Dr. Raj Patel', bio: 'PhD Machine Learning · Former Research Scientist at DeepMind · Published 30+ papers.', avatar: null },
+    category:   'AI & ML',
+    duration:   2100,
+    level:      'Intermediate',
+    price:      7999,
+    rating:     4.8,
+    totalReviews: 1923,
+    enrolledStudents: Array(8900),
+    thumbnail:  'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80',
+    videoUrl:   null,
+    enrollmentStatus: 'open',
+    outcomes: [
+      'Understand core ML algorithms from scratch',
+      'Build and train neural networks with PyTorch',
+      'Work with real-world datasets',
+      'Deploy ML models as REST APIs',
+      'Understand transformers and LLMs',
+    ],
+    curriculum: [
+      {
+        section: 'ML Foundations',
+        lessons: [
+          { id: 'c2-l1', title: 'What is Machine Learning?',      duration: 14, videoId: 'ukzFI9rgwfU' },
+          { id: 'c2-l2', title: 'Linear Regression Deep Dive',    duration: 22, videoId: 'nk2CQITm_eo' },
+          { id: 'c2-l3', title: 'Classification Algorithms',      duration: 25, videoId: 'yIYKR4sgzI8' },
+          { id: 'c2-l4', title: 'Model Evaluation & Overfitting', duration: 20, videoId: 'EuBBz3bI-aA' },
+        ],
+      },
+      {
+        section: 'Neural Networks',
+        lessons: [
+          { id: 'c2-l5', title: 'Perceptrons & Activation Fns',   duration: 28, videoId: 'aircAruvnKk' },
+          { id: 'c2-l6', title: 'Backpropagation Explained',      duration: 32, videoId: 'Ilg3gGewQ5U' },
+          { id: 'c2-l7', title: 'Convolutional Neural Networks',  duration: 35, videoId: 'KuXjwB4LzSA' },
+          { id: 'c2-l8', title: 'Recurrent Neural Networks',      duration: 30, videoId: 'AsNTP8Kwu80' },
+        ],
+      },
+      {
+        section: 'Projects',
+        lessons: [
+          { id: 'c2-l9',  title: 'Image Classifier with CNN',     duration: 50, videoId: 'jZx8PMQjobk' },
+          { id: 'c2-l10', title: 'Sentiment Analysis NLP',        duration: 45, videoId: 'QpzMWQvxXWk' },
+          { id: 'c2-l11', title: 'Deploy Model as API',           duration: 40, videoId: '1uFVr15xDGg' },
+        ],
+      },
+    ],
+    createdAt: '2024-02-10T00:00:00Z',
+  },
+  {
+    _id: 'c3',
+    title: 'Full-Stack Node.js & MongoDB Mastery',
+    description:
+      'Build production-ready REST APIs with Node.js, Express, and MongoDB. Learn authentication, deployment, and scaling strategies used in real applications.',
+    instructor: { _id: 'i3', name: 'Marcus Williams', bio: 'Staff Engineer at Stripe · Open source contributor · Built APIs serving 10M+ requests/day.', avatar: null },
+    category:   'Web Development',
+    duration:   1800,
+    level:      'Advanced',
+    price:      0,
+    rating:     4.7,
+    totalReviews: 1450,
+    enrolledStudents: Array(6200),
+    thumbnail:  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80',
+    videoUrl:   null,
+    enrollmentStatus: 'open',
+    outcomes: [
+      'Design scalable REST APIs',
+      'Master MongoDB data modeling',
+      'Implement JWT authentication',
+      'Deploy to cloud with CI/CD',
+    ],
+    curriculum: [
+      {
+        section: 'Node.js Core',
+        lessons: [
+          { id: 'c3-l1', title: 'The Event Loop Explained',       duration: 18, videoId: 'eiC58R16hb8' },
+          { id: 'c3-l2', title: 'Modules & CommonJS vs ESM',      duration: 15, videoId: 'qgI-qA-LQHQ' },
+          { id: 'c3-l3', title: 'Async/Await & Promises',         duration: 22, videoId: 'V_Kr9OSfDeU' },
+        ],
+      },
+      {
+        section: 'Express APIs',
+        lessons: [
+          { id: 'c3-l4', title: 'Routing & Controllers',          duration: 20, videoId: 'pKd0Rpw7O_I' },
+          { id: 'c3-l5', title: 'Middleware Deep Dive',           duration: 18, videoId: 'lY6icfhap2o' },
+          { id: 'c3-l6', title: 'Error Handling Patterns',        duration: 16, videoId: 'w3vs4a03y3I' },
+        ],
+      },
+      {
+        section: 'MongoDB',
+        lessons: [
+          { id: 'c3-l7', title: 'Schema Design Best Practices',   duration: 25, videoId: '3GHZd0zv170' },
+          { id: 'c3-l8', title: 'Aggregation Pipeline',           duration: 28, videoId: 'A3jvoE0jGdE' },
+          { id: 'c3-l9', title: 'Indexing for Performance',       duration: 20, videoId: 'ZJy5CmxFBJU' },
+        ],
+      },
+    ],
+    createdAt: '2024-03-01T00:00:00Z',
+  },
+  {
+    _id: 'c4',
+    title: 'Python for Data Science & Analysis',
+    description:
+      'Learn Python data analysis with Pandas, NumPy, and Matplotlib. Build interactive dashboards and work with real-world datasets from Kaggle.',
+    instructor: { _id: 'i4', name: 'Priya Sharma', bio: 'Lead Data Scientist at Netflix · Kaggle Grandmaster · Author of "Python for Analytics".', avatar: null },
+    category:   'Data Science',
+    duration:   960,
+    level:      'Beginner',
+    price:      3999,
+    rating:     4.6,
+    totalReviews: 3102,
+    enrolledStudents: Array(15000),
+    thumbnail:  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
+    videoUrl:   null,
+    enrollmentStatus: 'open',
+    outcomes: [
+      'Master Python for data work',
+      'Analyze datasets with Pandas',
+      'Create compelling visualizations',
+      'Build predictive models',
+    ],
+    curriculum: [
+      {
+        section: 'Python Basics',
+        lessons: [
+          { id: 'c4-l1', title: 'Python Data Structures',         duration: 16, videoId: 'W8KRzm-HUcc' },
+          { id: 'c4-l2', title: 'Functions & Lambdas',            duration: 18, videoId: 'BVfCWuca9nw' },
+          { id: 'c4-l3', title: 'OOP in Python',                  duration: 22, videoId: 'JeznW_7DlB0' },
+        ],
+      },
+      {
+        section: 'Data Tools',
+        lessons: [
+          { id: 'c4-l4', title: 'NumPy Arrays & Operations',      duration: 24, videoId: 'QUT1VHiLmmI' },
+          { id: 'c4-l5', title: 'Pandas DataFrames Mastery',      duration: 30, videoId: 'vmEHCJofslg' },
+          { id: 'c4-l6', title: 'Matplotlib & Seaborn',           duration: 25, videoId: 'a9UrKTVEeZA' },
+        ],
+      },
+      {
+        section: 'Projects',
+        lessons: [
+          { id: 'c4-l7', title: 'Exploratory Data Analysis',      duration: 40, videoId: 'xi0vhXFPegw' },
+          { id: 'c4-l8', title: 'Build an Analytics Dashboard',   duration: 45, videoId: 'MiiANxRHSv4' },
+        ],
+      },
+    ],
+    createdAt: '2024-01-28T00:00:00Z',
+  },
+  {
+    _id: 'c5',
+    title: 'UI/UX Design Masterclass with Figma',
+    description:
+      'Design beautiful, user-centered products from scratch. Learn design thinking, wireframing, prototyping, and Figma workflows used at top design studios.',
+    instructor: { _id: 'i5', name: 'Alex Rivera', bio: 'Principal Designer at Airbnb · Design Systems Lead · Speaker at Config and Figma Community.', avatar: null },
+    category:   'UI/UX Design',
+    duration:   720,
+    level:      'Beginner',
+    price:      5999,
+    rating:     4.8,
+    totalReviews: 2210,
+    enrolledStudents: Array(9100),
+    thumbnail:  'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80',
+    videoUrl:   null,
+    enrollmentStatus: 'open',
+    outcomes: [
+      'Apply design thinking principles',
+      'Master Figma for UI design',
+      'Build complete design systems',
+      'Run user research & testing',
+    ],
+    curriculum: [
+      {
+        section: 'Design Thinking',
+        lessons: [
+          { id: 'c5-l1', title: 'Empathy Mapping',                duration: 18, videoId: 'QwF9a56jVMs' },
+          { id: 'c5-l2', title: 'User Research Methods',          duration: 22, videoId: 'Ovj4hFxko7c' },
+          { id: 'c5-l3', title: 'Ideation & Sketching',           duration: 16, videoId: 'pXtN4y3O35M' },
+        ],
+      },
+      {
+        section: 'Figma Skills',
+        lessons: [
+          { id: 'c5-l4', title: 'Components & Variants',          duration: 28, videoId: 'tDLJBFKSNiY' },
+          { id: 'c5-l5', title: 'Auto Layout Mastery',            duration: 24, videoId: 'TyaGpGDFczw' },
+          { id: 'c5-l6', title: 'Prototyping & Interactions',     duration: 26, videoId: '4W4LvJnNegA' },
+        ],
+      },
+      {
+        section: 'Final Project',
+        lessons: [
+          { id: 'c5-l7', title: 'Design a Mobile App End-to-End', duration: 55, videoId: 'l-x8DqGsHBk' },
+          { id: 'c5-l8', title: 'Design Handoff to Developers',   duration: 20, videoId: 'IuEo1PoIPKo' },
+        ],
+      },
+    ],
+    createdAt: '2024-02-20T00:00:00Z',
+  },
+  {
+    _id: 'c6',
+    title: 'DevOps with Docker & Kubernetes',
+    description:
+      'Master containerization, orchestration, and CI/CD pipelines. Deploy scalable applications using Docker, Kubernetes, and GitHub Actions in production environments.',
+    instructor: { _id: 'i6', name: 'Chris Park', bio: 'DevOps Architect at Spotify · CKA & CKAD Certified · Runs the DevOps Weekly newsletter.', avatar: null },
+    category:   'DevOps',
+    duration:   1560,
+    level:      'Advanced',
+    price:      8999,
+    rating:     4.7,
+    totalReviews: 987,
+    enrolledStudents: Array(4300),
+    thumbnail:  'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=800&q=80',
+    videoUrl:   null,
+    enrollmentStatus: 'open',
+    outcomes: [
+      'Containerize any app with Docker',
+      'Orchestrate workloads with Kubernetes',
+      'Build CI/CD pipelines',
+      'Monitor production systems',
+    ],
+    curriculum: [
+      {
+        section: 'Docker',
+        lessons: [
+          { id: 'c6-l1', title: 'Containers vs VMs',              duration: 14, videoId: 'TvnZTi_gaNc' },
+          { id: 'c6-l2', title: 'Writing Dockerfiles',            duration: 20, videoId: 'gAkwW2tuIqE' },
+          { id: 'c6-l3', title: 'Docker Compose',                 duration: 22, videoId: 'DM65_JyGxCo' },
+        ],
+      },
+      {
+        section: 'Kubernetes',
+        lessons: [
+          { id: 'c6-l4', title: 'Pods, Services & Deployments',   duration: 30, videoId: 'X48VuDVv0do' },
+          { id: 'c6-l5', title: 'ConfigMaps & Secrets',           duration: 22, videoId: 'FAnQTgr04mU' },
+          { id: 'c6-l6', title: 'Helm Charts',                    duration: 25, videoId: '-ykwb1d0DXU' },
+        ],
+      },
+      {
+        section: 'CI/CD',
+        lessons: [
+          { id: 'c6-l7', title: 'GitHub Actions Workflows',       duration: 28, videoId: 'R8_veQiYBjI' },
+          { id: 'c6-l8', title: 'ArgoCD for GitOps',              duration: 24, videoId: 'MeU5_k9ssrs' },
+          { id: 'c6-l9', title: 'Monitoring with Prometheus',     duration: 26, videoId: 'h4Sl21AKiDg' },
+        ],
+      },
+    ],
+    createdAt: '2024-03-10T00:00:00Z',
+  },
+]
+
+export const CATEGORIES = [
+  { name: 'Web Development', icon: '🌐', count: 120, color: 'from-blue-600/20 to-blue-500/5    border-blue-500/20   hover:border-blue-400/40'   },
+  { name: 'AI & ML',         icon: '🤖', count: 85,  color: 'from-violet-600/20 to-violet-500/5 border-violet-500/20 hover:border-violet-400/40' },
+  { name: 'Data Science',    icon: '📊', count: 96,  color: 'from-emerald-600/20 to-emerald-500/5 border-emerald-500/20 hover:border-emerald-400/40'},
+  { name: 'UI/UX Design',    icon: '🎨', count: 64,  color: 'from-pink-600/20 to-pink-500/5     border-pink-500/20   hover:border-pink-400/40'   },
+  { name: 'Mobile Dev',      icon: '📱', count: 73,  color: 'from-orange-600/20 to-orange-500/5 border-orange-500/20 hover:border-orange-400/40' },
+  { name: 'DevOps',          icon: '⚙️', count: 48,  color: 'from-cyan-600/20 to-cyan-500/5     border-cyan-500/20   hover:border-cyan-400/40'   },
+  { name: 'Cloud Computing', icon: '☁️', count: 59,  color: 'from-sky-600/20 to-sky-500/5       border-sky-500/20     hover:border-sky-400/40'   },
+  { name: 'Cybersecurity',   icon: '🔐', count: 41,  color: 'from-red-600/20 to-red-500/5       border-red-500/20     hover:border-red-400/40'   },
+]
+
+export const STATS = [
+  { value: '50K+', label: 'Active Learners',    icon: '🎓' },
+  { value: '500+', label: 'Expert Courses',      icon: '📚' },
+  { value: '120+', label: 'World-Class Mentors', icon: '🧑‍🏫' },
+  { value: '95%',  label: 'Satisfaction Rate',   icon: '⭐' },
+]
+
+export const TESTIMONIALS = [
+  {
+    name:   'Amara O.',
+    role:   'Frontend Developer at Vercel',
+    avatar: 'A',
+    text:   'LearnPro helped me transition from accounting to tech in just 6 months. The React bootcamp was the most structured learning I have ever done.',
+    stars:  5,
+    course: 'Complete React Developer Bootcamp',
+  },
+  {
+    name:   'James K.',
+    role:   'Data Analyst at Goldman Sachs',
+    avatar: 'J',
+    text:   'The AI study assistant is a game changer. It is like having a tutor available at 3am who actually knows the material cold.',
+    stars:  5,
+    course: 'Python for Data Science',
+  },
+  {
+    name:   'Mei L.',
+    role:   'ML Engineer at ByteDance',
+    avatar: 'M',
+    text:   'Best platform for structured learning. The curriculum design makes complex topics genuinely approachable without dumbing them down.',
+    stars:  5,
+    course: 'Machine Learning & AI Fundamentals',
+  },
+]
