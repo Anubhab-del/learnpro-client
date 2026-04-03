@@ -1,8 +1,54 @@
-import { Link } from 'react-router-dom'
-import { formatDuration, formatPrice, truncate, categoryIcon, compactNum } from '../../utils/helpers'
-import { LevelBadge } from '../ui/Badge'
+import { useState }   from 'react'
+import { Link }       from 'react-router-dom'
+import {
+  formatDuration, formatPrice, truncate,
+  categoryIcon, compactNum,
+} from '../../utils/helpers'
+import { LevelBadge }  from '../ui/Badge'
 import { useProgress } from '../../hooks/useProgress'
-import ProgressBar from '../ui/ProgressBar'
+import ProgressBar     from '../ui/ProgressBar'
+
+const CATEGORY_GRADIENTS = {
+  'Web Development': 'from-blue-900/60   via-blue-800/40   to-ink-900',
+  'AI & ML':         'from-violet-900/60 via-violet-800/40 to-ink-900',
+  'Data Science':    'from-emerald-900/60 via-emerald-800/40 to-ink-900',
+  'UI/UX Design':    'from-pink-900/60   via-pink-800/40   to-ink-900',
+  'Mobile Dev':      'from-orange-900/60 via-orange-800/40 to-ink-900',
+  'DevOps':          'from-cyan-900/60   via-cyan-800/40   to-ink-900',
+  'Cloud Computing': 'from-sky-900/60    via-sky-800/40    to-ink-900',
+  'Cybersecurity':   'from-red-900/60    via-red-800/40    to-ink-900',
+}
+
+function CourseThumbnail({ thumbnail, title, category }) {
+  const [errored, setErrored] = useState(false)
+  const gradient = CATEGORY_GRADIENTS[category] || 'from-violet-900/60 via-violet-800/40 to-ink-900'
+
+  if (!thumbnail || errored) {
+    return (
+      <div className={`w-full h-full flex flex-col items-center justify-center
+                       bg-gradient-to-br ${gradient} gap-3`}>
+        <span style={{ fontSize:'clamp(2.5rem, 6vw, 3.5rem)' }}>
+          {categoryIcon(category)}
+        </span>
+        <p className="font-display font-semibold text-white/60 text-center px-3 leading-tight"
+           style={{ fontSize:'clamp(0.65rem, 1.5vw, 0.75rem)' }}>
+          {truncate(title, 40)}
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <img
+      src={thumbnail}
+      alt={title}
+      loading="lazy"
+      onError={() => setErrored(true)}
+      className="w-full h-full object-cover group-hover:scale-[1.07]
+                 transition-transform duration-700 ease-out"
+    />
+  )
+}
 
 export default function CourseCard({ course, index = 0 }) {
   const {
@@ -13,8 +59,8 @@ export default function CourseCard({ course, index = 0 }) {
   } = course
 
   const { getCourseProgress, isEnrolled } = useProgress()
-  const progress  = getCourseProgress(_id)
-  const enrolled  = isEnrolled(_id)
+  const progress = getCourseProgress(_id)
+  const enrolled = isEnrolled(_id)
 
   const instructorName =
     typeof instructor === 'string' ? instructor : instructor?.name || 'Instructor'
@@ -29,60 +75,47 @@ export default function CourseCard({ course, index = 0 }) {
     >
       <article className="card-interactive h-full flex flex-col overflow-hidden group relative">
 
-        {/* ── Enrolled ribbon ─────────────────── */}
         {enrolled && (
           <div className="absolute top-3 left-3 z-10">
-            <span className="badge bg-emerald-500/90 text-white border-0 shadow-emerald-sm backdrop-blur-sm">
+            <span className="badge bg-emerald-500/90 text-white border-0 shadow-lg backdrop-blur-sm">
               ✓ Enrolled
             </span>
           </div>
         )}
 
-        {/* ── Thumbnail ───────────────────────── */}
-        <div className="relative aspect-video overflow-hidden bg-ink-900 flex-shrink-0">
-          {thumbnail ? (
-            <img
-              src={thumbnail}
-              alt={title}
-              loading="lazy"
-              className="w-full h-full object-cover group-hover:scale-[1.07]
-                         transition-transform duration-700 ease-out"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center
-                            bg-gradient-to-br from-violet-900/30 to-ink-900">
-              <span className="text-5xl opacity-60">{categoryIcon(category)}</span>
-            </div>
-          )}
+        {/* Thumbnail */}
+        <div className="relative overflow-hidden bg-ink-900 flex-shrink-0"
+             style={{ aspectRatio:'16/9' }}>
+          <CourseThumbnail
+            thumbnail={thumbnail}
+            title={title}
+            category={category}
+          />
 
-          {/* Gradient overlay — stronger at bottom */}
           <div className="absolute inset-0 bg-gradient-to-t
-                          from-ink-900/80 via-ink-900/20 to-transparent" />
+                          from-ink-900/80 via-ink-900/10 to-transparent pointer-events-none" />
 
-          {/* Price chip */}
-          <div className="absolute top-3 right-3">
+          <div className="absolute top-3 right-3 z-10">
             {price === 0 ? (
               <span className="badge bg-emerald-500/90 text-white border-0 shadow-lg backdrop-blur-sm">
                 Free
               </span>
             ) : (
-              <span className="badge bg-ink-950/80 text-white border border-white/15 backdrop-blur-sm">
+              <span className="badge bg-ink-950/85 text-white border border-white/20 backdrop-blur-sm">
                 {formatPrice(price)}
               </span>
             )}
           </div>
 
-          {/* Bottom category chip */}
-          <div className="absolute bottom-3 left-3">
-            <span className="badge bg-ink-950/75 text-white/75
-                             border border-white/10 backdrop-blur-sm text-2xs">
+          <div className="absolute bottom-3 left-3 z-10 max-w-[calc(100%-4rem)]">
+            <span className="badge bg-ink-950/80 text-white/80
+                             border border-white/10 backdrop-blur-sm truncate block">
               {categoryIcon(category)} {category}
             </span>
           </div>
 
-          {/* Hover play overlay */}
           <div className="absolute inset-0 flex items-center justify-center
-                          opacity-0 group-hover:opacity-100 transition-all duration-300">
+                          opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
             <div className="w-14 h-14 rounded-full bg-violet-600/90 backdrop-blur-sm
                             flex items-center justify-center shadow-violet-lg
                             scale-75 group-hover:scale-100 transition-transform duration-300">
@@ -93,57 +126,55 @@ export default function CourseCard({ course, index = 0 }) {
           </div>
         </div>
 
-        {/* ── Body ────────────────────────────── */}
-        <div className="flex flex-col flex-1 p-5">
+        {/* Body */}
+        <div className="flex flex-col flex-1 p-4 md:p-5">
 
-          {/* Level + Rating */}
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-3 gap-2">
             <LevelBadge level={level} />
-            <div className="flex items-center gap-1">
-              <span className="text-amber-400 text-sm">★</span>
-              <span className="text-white font-display font-semibold text-sm">
+            <div className="flex items-center gap-1 flex-shrink-0">
+              <span className="text-amber-400" style={{ fontSize:'clamp(0.75rem, 2vw, 0.875rem)' }}>★</span>
+              <span className="text-white font-display font-semibold"
+                    style={{ fontSize:'clamp(0.75rem, 2vw, 0.875rem)' }}>
                 {rating.toFixed(1)}
               </span>
-              <span className="text-2xs" style={{ color: 'var(--text-dim)' }}>
+              <span style={{ fontSize:'clamp(0.65rem, 1.5vw, 0.75rem)', color:'var(--text-dim)' }}>
                 ({compactNum(totalReviews)})
               </span>
             </div>
           </div>
 
-          {/* Title */}
-          <h3 className="font-display font-bold text-white text-base leading-snug mb-2
-                         group-hover:text-violet-300 transition-colors duration-200">
+          <h3 className="font-display font-bold text-white leading-snug mb-2
+                         group-hover:text-violet-300 transition-colors duration-200"
+              style={{ fontSize:'clamp(0.9rem, 2vw, 1.0625rem)' }}>
             {truncate(title, 65)}
           </h3>
 
-          {/* Description */}
-          <p className="font-body text-sm leading-relaxed flex-1 mb-4"
-             style={{ color: 'var(--text-muted)' }}>
-            {truncate(description?.split('\n')[0], 85)}
+          <p className="font-body leading-relaxed flex-1 mb-3"
+             style={{ fontSize:'clamp(0.8rem, 2vw, 0.875rem)', color:'var(--text-muted)' }}>
+            {truncate(description?.split('\n')[0], 90)}
           </p>
 
-          {/* Progress bar if enrolled */}
           {enrolled && progress && (
-            <div className="mb-4">
+            <div className="mb-3">
               <ProgressBar value={progress.progress} size="sm" showLabel={false} />
-              <p className="text-2xs mt-1 font-body" style={{ color: 'var(--text-dim)' }}>
+              <p className="font-body mt-1"
+                 style={{ fontSize:'clamp(0.65rem, 1.5vw, 0.75rem)', color:'var(--text-dim)' }}>
                 {progress.progress === 100
                   ? '✅ Completed'
-                  : `${progress.completedLessons?.length || 0} / ${progress.totalLessons || '?'} lessons done`}
+                  : `${progress.completedLessons?.length || 0}/${progress.totalLessons || '?'} lessons`}
               </p>
             </div>
           )}
 
-          {/* Footer meta */}
-          <div className="pt-3 border-t border-white/6 flex items-center justify-between
-                          text-xs" style={{ color: 'var(--text-dim)' }}>
+          <div className="pt-3 border-t border-white/6 flex items-center justify-between gap-2"
+               style={{ fontSize:'clamp(0.7rem, 1.5vw, 0.8rem)', color:'var(--text-dim)' }}>
             <div className="flex items-center gap-2 min-w-0">
-              <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-violet-600 to-violet-800
-                              flex items-center justify-center text-white font-display font-bold
-                              text-2xs flex-shrink-0">
+              <div className="rounded-lg bg-gradient-to-br from-violet-600 to-violet-800
+                              flex items-center justify-center text-white font-display font-bold flex-shrink-0"
+                   style={{ width:'1.5rem', height:'1.5rem', fontSize:'0.625rem', minWidth:'1.5rem' }}>
                 {instructorName[0]?.toUpperCase()}
               </div>
-              <span className="truncate max-w-[90px] font-body">{instructorName}</span>
+              <span className="truncate font-body">{instructorName}</span>
             </div>
             <div className="flex items-center gap-3 flex-shrink-0 font-body">
               <span>⏱ {formatDuration(duration)}</span>

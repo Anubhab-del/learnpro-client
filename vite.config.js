@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
@@ -8,9 +8,9 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-    },
+        changeOrigin: true
+      }
+    }
   },
   build: {
     outDir: 'dist',
@@ -18,11 +18,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor:  ['react', 'react-dom', 'react-router-dom'],
-          groq:    ['groq-sdk'],
-          axios:   ['axios'],
-        },
-      },
-    },
-  },
-})
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['lucide-react', 'react-hot-toast']
+        }
+      }
+    }
+  }
+});

@@ -1,4 +1,3 @@
-/* Duration: minutes → "2h 30m" */
 export const formatDuration = (minutes) => {
   if (!minutes && minutes !== 0) return 'N/A'
   const h = Math.floor(minutes / 60)
@@ -8,13 +7,11 @@ export const formatDuration = (minutes) => {
   return `${h}h ${m}m`
 }
 
-/* Price: cents → "$49.99" or "Free" */
 export const formatPrice = (cents) => {
   if (cents === 0) return 'Free'
   return `$${(cents / 100).toFixed(2)}`
 }
 
-/* Date → "Mar 25, 2026" */
 export const formatDate = (iso) => {
   if (!iso) return ''
   return new Date(iso).toLocaleDateString('en-US', {
@@ -22,11 +19,9 @@ export const formatDate = (iso) => {
   })
 }
 
-/* Truncate string */
 export const truncate = (str, n) =>
   str && str.length > n ? str.slice(0, n).trimEnd() + '…' : str || ''
 
-/* Level → badge color classes */
 export const levelStyle = (level) => {
   const map = {
     Beginner:     'bg-emerald-500/15 text-emerald-400 border-emerald-500/25',
@@ -36,7 +31,6 @@ export const levelStyle = (level) => {
   return map[level] || 'bg-violet-500/15 text-violet-400 border-violet-500/25'
 }
 
-/* Category → emoji */
 export const categoryIcon = (cat) => {
   const map = {
     'Web Development': '🌐',
@@ -51,16 +45,17 @@ export const categoryIcon = (cat) => {
   return map[cat] || '📚'
 }
 
-/* Rating → star string */
-export const starRating = (rating = 0) => {
-  const full = Math.floor(rating)
-  const half = rating % 1 >= 0.5
-  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0))
-}
-
-/* Number → compact "12.4k" */
 export const compactNum = (n) => {
   if (!n) return '0'
-  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
+  if (n >= 1_000)     return `${(n / 1_000).toFixed(1)}k`
   return String(n)
+}
+
+export const debounce = (fn, delay = 300) => {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => fn(...args), delay)
+  }
 }

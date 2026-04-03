@@ -1,414 +1,244 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import CourseCard    from '../components/courses/CourseCard'
-import CourseCardSkeleton from '../components/courses/CourseCardSkeleton'
-import { MOCK_COURSES, CATEGORIES, STATS } from '../data/mockData'
-import api           from '../services/api'
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  BookOpen, Users, Star, Zap, ChevronRight, Code2, Brain, Shield,
+  Database, Cloud, Smartphone, Palette, Cpu, ArrowRight, Play
+} from 'lucide-react';
+import api from '../utils/api';
+import CourseCard from '../components/CourseCard';
 
-const FEATURED_IDS = ['c1', 'c2', 'c3', 'c5', 'c9', 'c4']
+const CATEGORIES = [
+  { name: 'Web Development', icon: Code2, color: 'from-blue-500 to-cyan-500', courses: 9 },
+  { name: 'Data Science', icon: Brain, color: 'from-purple-500 to-violet-500', courses: 5 },
+  { name: 'Artificial Intelligence', icon: Cpu, color: 'from-pink-500 to-rose-500', courses: 5 },
+  { name: 'Mobile Development', icon: Smartphone, color: 'from-green-500 to-emerald-500', courses: 5 },
+  { name: 'Cloud & DevOps', icon: Cloud, color: 'from-sky-500 to-blue-500', courses: 5 },
+  { name: 'Cybersecurity', icon: Shield, color: 'from-red-500 to-orange-500', courses: 4 },
+  { name: 'Database', icon: Database, color: 'from-amber-500 to-yellow-500', courses: 3 },
+  { name: 'UI/UX Design', icon: Palette, color: 'from-fuchsia-500 to-pink-500', courses: 3 }
+];
 
-const TESTIMONIALS = [
-  {
-    name:   'Amara O.',
-    role:   'Frontend Developer',
-    avatar: 'A',
-    text:   'LearnPro helped me transition from accounting to tech in just 6 months. The React bootcamp was phenomenal.',
-    stars:  5,
-  },
-  {
-    name:   'James K.',
-    role:   'Data Analyst',
-    avatar: 'J',
-    text:   "The AI study assistant is a game changer. It's like having a tutor available 24/7 who actually knows the material.",
-    stars:  5,
-  },
-  {
-    name:   'Mei L.',
-    role:   'ML Engineer',
-    avatar: 'M',
-    text:   'Best platform for structured learning. The curriculum design makes complex topics genuinely approachable.',
-    stars:  5,
-  },
-]
+const STATS = [
+  { label: 'Total Courses', value: '42+', icon: BookOpen },
+  { label: 'Active Students', value: '50K+', icon: Users },
+  { label: 'Avg Rating', value: '4.7★', icon: Star },
+  { label: 'Expert Instructors', value: '12+', icon: Zap }
+];
 
 export default function Home() {
-  const [query,        setQuery]        = useState('')
-  const [featuredCourses, setFeaturedCourses] = useState([])
-  const [coursesLoading,  setCoursesLoading]  = useState(true)
-  const navigate = useNavigate()
+  const [featured, setFeatured] = useState([]);
+  const [loadingFeatured, setLoadingFeatured] = useState(true);
 
   useEffect(() => {
-    const load = async () => {
-      setCoursesLoading(true)
-      try {
-        const res = await api.get('/courses?limit=6')
-        const data = res.data.courses || res.data
-        setFeaturedCourses(data.slice(0, 6))
-      } catch {
-        setFeaturedCourses(
-          MOCK_COURSES.filter(c => FEATURED_IDS.includes(c._id))
-        )
-      } finally {
-        setCoursesLoading(false)
-      }
-    }
-    load()
-  }, [])
-
-  const handleSearch = (e) => {
-    e.preventDefault()
-    if (query.trim()) navigate(`/courses?search=${encodeURIComponent(query.trim())}`)
-  }
+    api.get('/api/courses/featured/list')
+      .then(({ data }) => setFeatured(data.courses || []))
+      .catch(() => {})
+      .finally(() => setLoadingFeatured(false));
+  }, []);
 
   return (
-    <main className="overflow-x-hidden">
+    <div className="page-container">
 
-      {/* ── HERO ─────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center justify-center
-                           px-4 pt-24 pb-20">
-        {/* Background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Large glow orbs */}
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2
-                          w-[600px] h-[600px] rounded-full
-                          bg-violet-600/10 blur-[120px] animate-pulse-soft" />
-          <div className="absolute bottom-1/4 right-1/4
-                          w-[400px] h-[400px] rounded-full
-                          bg-amber-500/8 blur-[100px] animate-pulse-soft"
-               style={{ animationDelay: '2s' }} />
+      {/* ─── Hero Section ──────────────────────────────────────────────────────── */}
+      <section className="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden">
+        {/* Glow orbs */}
+        <div
+          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%)',
+            filter: 'blur(40px)',
+            animation: 'float 8s ease-in-out infinite'
+          }}
+        />
+        <div
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(219,39,119,0.15) 0%, transparent 70%)',
+            filter: 'blur(40px)',
+            animation: 'float 10s ease-in-out infinite reverse'
+          }}
+        />
 
-          {/* Grid pattern */}
-          <div className="absolute inset-0 opacity-[0.025]"
-               style={{
-                 backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)',
-                 backgroundSize: '60px 60px',
-               }} />
-
-          {/* Floating particles */}
-          {[...Array(8)].map((_, i) => (
-            <div key={i}
-              className="absolute w-1 h-1 rounded-full bg-violet-400/50 animate-float"
-              style={{
-                top:            `${20 + (i * 10) % 70}%`,
-                left:           `${10 + (i * 13) % 80}%`,
-                animationDelay: `${i * 0.7}s`,
-                animationDuration: `${4 + i}s`,
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="relative max-w-4xl mx-auto text-center">
-          {/* Eyebrow pill */}
-          <div className="inline-flex items-center gap-2 pill mb-8 animate-fade-in">
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-            <span className="text-violet-300 text-sm font-display font-medium">
-              AI-Powered Learning Platform · 500+ Expert Courses
-            </span>
+        <div className="relative z-10 text-center max-w-5xl mx-auto">
+          {/* Pill */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-purple-500/30 mb-8 animate-fade-in">
+            <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span className="text-white/80 text-sm font-medium">42+ Production-Level Courses Available</span>
           </div>
 
           {/* Headline */}
-          <h1 className="font-display font-extrabold leading-[1.05] mb-6
-                         text-5xl sm:text-6xl md:text-7xl lg:text-8xl
-                         animate-fade-up opacity-0"
-              style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
-            <span className="text-white">Learn Smarter,</span>
+          <h1
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-6 animate-slide-up safe-text"
+            style={{ animationDelay: '0.1s' }}
+          >
+            <span className="text-white">Master Your</span>
             <br />
-            <span className="text-gradient-full">Grow Faster.</span>
+            <span className="gradient-text">Future.</span>
           </h1>
 
-          {/* Subheadline */}
-          <p className="section-subtitle max-w-2xl mx-auto mb-10 text-lg md:text-xl
-                        animate-fade-up opacity-0"
-             style={{ animationDelay: '0.22s', animationFillMode: 'both' }}>
-            Access world-class courses, track your progress in real time, and get
-            personalized guidance from our AI learning assistant — all in one place.
+          {/* Subheading */}
+          <p
+            className="text-white/60 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed animate-slide-up safe-text"
+            style={{ animationDelay: '0.2s' }}
+          >
+            Learn from industry experts. Build real projects. Track your progress. Get AI-powered guidance — all in one beautiful platform.
           </p>
 
-          {/* Search bar */}
-          <form
-            onSubmit={handleSearch}
-            className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto mb-12
-                       animate-fade-up opacity-0"
-            style={{ animationDelay: '0.34s', animationFillMode: 'both' }}
+          {/* CTAs */}
+          <div
+            className="flex flex-wrap items-center justify-center gap-4 animate-slide-up"
+            style={{ animationDelay: '0.3s' }}
           >
-            <div className="relative flex-1">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none">
-                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                </svg>
-              </span>
-              <input
-                type="text"
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-                placeholder="Search courses, skills, topics…"
-                className="input pl-11 h-14 text-base w-full rounded-2xl"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary btn-lg whitespace-nowrap rounded-2xl h-14">
-              Search Courses
-            </button>
-          </form>
-
-          {/* CTA pair */}
-          <div className="flex flex-wrap gap-4 justify-center
-                          animate-fade-up opacity-0"
-               style={{ animationDelay: '0.44s', animationFillMode: 'both' }}>
-            <Link to="/courses"  className="btn btn-primary  btn-lg">
-              Explore All Courses
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
+            <Link
+              to="/register"
+              className="btn-primary inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-bold shadow-2xl"
+            >
+              <Zap className="w-5 h-5 shrink-0" />
+              <span>Start Learning Free</span>
             </Link>
-            <Link to="/register" className="btn btn-outline btn-lg">
-              Start for Free
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-semibold glass border border-white/20 text-white/80 hover:text-white hover:bg-white/5 transition-all duration-300"
+            >
+              <Play className="w-5 h-5 shrink-0" />
+              <span>Browse Courses</span>
             </Link>
           </div>
 
-          {/* Social proof strip */}
-          <div className="mt-14 flex flex-wrap justify-center gap-6
-                          animate-fade-up opacity-0"
-               style={{ animationDelay: '0.54s', animationFillMode: 'both' }}>
-            <div className="flex -space-x-2">
-              {['S', 'J', 'A', 'M', 'K'].map((l, i) => (
-                <div key={i}
-                  className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-violet-700
-                             border-2 border-ink-950 flex items-center justify-center
-                             text-xs font-display font-bold text-white">
-                  {l}
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex text-amber-400">{'★★★★★'}</div>
-              <span className="font-body text-sm" style={{ color: 'var(--text-muted)' }}>
-                Trusted by <span className="text-white font-display font-semibold">50,000+</span> learners
-              </span>
-            </div>
-          </div>
+          {/* Trust line */}
+          <p className="text-white/30 text-sm mt-8 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            No credit card required · Join 50,000+ learners
+          </p>
         </div>
       </section>
 
-      {/* ── STATS ────────────────────────────────────── */}
-      <section className="border-y border-white/6 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {STATS.map((s, i) => (
-              <div key={s.label} className="text-center stagger-children">
-                <div className="text-3xl mb-2 animate-float" style={{ animationDelay: `${i * 0.3}s` }}>
-                  {s.icon}
-                </div>
-                <p className="font-display font-extrabold text-4xl text-gradient-violet mb-1">
-                  {s.value}
-                </p>
-                <p className="font-body text-sm" style={{ color: 'var(--text-muted)' }}>
-                  {s.label}
-                </p>
+      {/* ─── Stats ───────────────────────────────────────────────────────────── */}
+      <section className="px-4 py-16 max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {STATS.map(({ label, value, icon: Icon }) => (
+            <div key={label} className="glass-card rounded-2xl p-6 text-center">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center mx-auto mb-3">
+                <Icon className="w-5 h-5 text-purple-400" />
               </div>
-            ))}
-          </div>
+              <p className="text-2xl sm:text-3xl font-black gradient-text mb-1">{value}</p>
+              <p className="text-white/50 text-sm">{label}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ── CATEGORIES ───────────────────────────────── */}
-      <section className="py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="section-eyebrow mb-3">Browse by Domain</p>
-            <h2 className="section-title mb-4">Find Your Path</h2>
-            <p className="section-subtitle mx-auto max-w-xl">
-              From web development to AI — discover the domain that matches your ambitions.
-            </p>
-          </div>
+      {/* ─── Categories ──────────────────────────────────────────────────────── */}
+      <section className="px-4 py-16 max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
+            Explore by <span className="gradient-text">Category</span>
+          </h2>
+          <p className="text-white/50 max-w-xl mx-auto">
+            From web development to AI — find the exact skill set your career needs.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4 stagger-children">
-            {CATEGORIES.map((cat) => (
-              <Link
-                key={cat.name}
-                to={`/courses?category=${encodeURIComponent(cat.name)}`}
-                className={`
-                  group card overflow-hidden
-                  bg-gradient-to-b ${cat.color} border
-                  p-6 flex flex-col items-center text-center
-                  hover:scale-[1.03] hover:-translate-y-1
-                  transition-all duration-300 ease-spring
-                  cursor-pointer
-                `}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {CATEGORIES.map(({ name, icon: Icon, color, courses }) => (
+            <Link
+              key={name}
+              to={`/dashboard?category=${encodeURIComponent(name)}`}
+              className="glass-card rounded-2xl p-5 text-center group"
+            >
+              <div
+                className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mx-auto mb-3 shadow-lg transition-transform duration-300 group-hover:scale-110`}
               >
-                <span className="text-4xl mb-3 group-hover:scale-110
-                                 transition-transform duration-300">
-                  {cat.icon}
-                </span>
-                <h3 className="font-display font-bold text-white text-sm leading-tight mb-1">
-                  {cat.name}
-                </h3>
-                <p className="font-body text-2xs" style={{ color: 'var(--text-muted)' }}>
-                  {cat.count} courses
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FEATURED COURSES ─────────────────────────── */}
-      <section className="py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
-            <div>
-              <p className="section-eyebrow mb-3">Curated for You</p>
-              <h2 className="section-title">Featured Courses</h2>
-            </div>
-            <Link to="/courses" className="btn btn-outline flex-shrink-0">
-              View All Courses
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
+                <Icon className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-white font-semibold text-sm leading-snug mb-1 safe-text">{name}</p>
+              <p className="text-white/40 text-xs">{courses} courses</p>
             </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {coursesLoading
-              ? Array(6).fill(null).map((_, i) => <CourseCardSkeleton key={i} />)
-              : featuredCourses.map((course, i) => (
-                  <CourseCard key={course._id} course={course} index={i} />
-                ))
-            }
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ─────────────────────────────── */}
-      <section className="py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="section-eyebrow mb-3">Simple Process</p>
-            <h2 className="section-title">How LearnPro Works</h2>
+      {/* ─── Featured Courses ─────────────────────────────────────────────────── */}
+      <section className="px-4 py-16 max-w-7xl mx-auto">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-12">
+          <div>
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-2">
+              Featured <span className="gradient-text">Courses</span>
+            </h2>
+            <p className="text-white/50">Handpicked by our instructors for maximum impact.</p>
           </div>
+          <Link
+            to="/dashboard"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl glass border border-white/20 text-white/70 hover:text-white transition-all text-sm font-medium"
+          >
+            View All <ArrowRight className="w-4 h-4 shrink-0" />
+          </Link>
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-6 stagger-children">
-            {[
-              {
-                step:  '01',
-                icon:  '🎯',
-                title: 'Choose Your Goal',
-                desc:  'Browse 500+ courses across 8 domains. Use LearnBot to get a personalized recommendation based on your goals.',
-              },
-              {
-                step:  '02',
-                icon:  '📖',
-                title: 'Learn at Your Pace',
-                desc:  'Access video lectures, exercises, and projects anytime. Track your progress with detailed analytics.',
-              },
-              {
-                step:  '03',
-                icon:  '🏆',
-                title: 'Earn & Apply',
-                desc:  'Complete courses, earn certificates, and build a portfolio that gets you hired.',
-              },
-            ].map(({ step, icon, title, desc }) => (
-              <div key={step} className="card p-8 relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
-                {/* Step number watermark */}
-                <div className="absolute top-4 right-5 font-display font-black text-6xl
-                                text-white/[0.04] select-none group-hover:text-white/[0.06]
-                                transition-colors">
-                  {step}
-                </div>
-                <div className="text-4xl mb-5">{icon}</div>
-                <h3 className="font-display font-bold text-white text-xl mb-3">{title}</h3>
-                <p className="font-body text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                  {desc}
-                </p>
-              </div>
+        {loadingFeatured ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="glass-card rounded-2xl aspect-[4/5] shimmer" />
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ─────────────────────────────── */}
-      <section className="py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="section-eyebrow mb-3">Student Stories</p>
-            <h2 className="section-title">What Learners Say</h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-5 stagger-children">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="card p-6 space-y-4 hover:-translate-y-1 transition-all duration-300">
-                <div className="flex text-amber-400 text-sm">
-                  {'★'.repeat(t.stars)}
-                </div>
-                <p className="font-body text-sm leading-relaxed italic"
-                   style={{ color: 'var(--text-muted)' }}>
-                  "{t.text}"
-                </p>
-                <div className="flex items-center gap-3 pt-2 border-t border-white/6">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-violet-800
-                                  flex items-center justify-center font-display font-bold text-white text-sm">
-                    {t.avatar}
-                  </div>
-                  <div>
-                    <p className="font-display font-semibold text-white text-sm">{t.name}</p>
-                    <p className="font-body text-2xs" style={{ color: 'var(--text-dim)' }}>{t.role}</p>
-                  </div>
-                </div>
-              </div>
+        ) : featured.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {featured.map((course) => (
+              <CourseCard key={course._id} course={course} />
             ))}
           </div>
+        ) : (
+          <div className="text-center py-16 text-white/40">
+            <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-40" />
+            <p>No featured courses yet. Seed the database to get started.</p>
+          </div>
+        )}
+      </section>
+
+      {/* ─── CTA Banner ──────────────────────────────────────────────────────── */}
+      <section className="px-4 py-20 max-w-7xl mx-auto">
+        <div
+          className="rounded-3xl p-8 sm:p-14 text-center relative overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(219,39,119,0.2) 100%)',
+            border: '1px solid rgba(168,85,247,0.3)'
+          }}
+        >
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(168,85,247,0.1) 0%, transparent 70%)'
+            }}
+          />
+          <h2 className="relative text-3xl sm:text-5xl font-black text-white mb-4 safe-text">
+            Ready to <span className="gradient-text">level up?</span>
+          </h2>
+          <p className="relative text-white/60 text-lg mb-8 max-w-xl mx-auto safe-text">
+            Create your free account in seconds. No credit card, no catch. Just pure learning.
+          </p>
+          <Link
+            to="/register"
+            className="btn-primary inline-flex items-center gap-2 px-10 py-4 rounded-2xl text-base font-bold shadow-2xl relative"
+          >
+            <span>Create Free Account</span>
+            <ChevronRight className="w-5 h-5 shrink-0" />
+          </Link>
         </div>
       </section>
 
-      {/* ── CTA BANNER ───────────────────────────────── */}
-      <section className="py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="
-            relative rounded-3xl overflow-hidden noise
-            p-12 md:p-20 text-center
-            bg-gradient-to-br from-violet-800 via-violet-700 to-violet-900
-          ">
-            {/* Decorative orbs inside banner */}
-            <div className="absolute top-0 right-0 w-80 h-80 rounded-full
-                            bg-amber-500/15 blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-60 h-60 rounded-full
-                            bg-violet-400/20 blur-3xl pointer-events-none" />
-
-            {/* Dot grid */}
-            <div className="absolute inset-0 opacity-[0.07] pointer-events-none"
-                 style={{
-                   backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-                   backgroundSize: '28px 28px',
-                 }} />
-
-            <div className="relative z-10">
-              <p className="font-display font-semibold text-violet-200/70 text-sm
-                            tracking-[0.2em] uppercase mb-4">
-                Start Today · No Credit Card Required
-              </p>
-              <h2 className="font-display font-extrabold text-white leading-tight mb-5
-                             text-4xl md:text-6xl">
-                Ready to Level Up?
-              </h2>
-              <p className="font-body text-violet-200/70 text-lg max-w-xl mx-auto mb-10">
-                Join 50,000+ learners already building the future. Free plan available forever.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <Link to="/register" className="btn btn-amber btn-lg">
-                  Create Free Account
-                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24"
-                       stroke="currentColor" strokeWidth="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </Link>
-                <Link to="/courses" className="btn btn-ghost btn-lg border border-white/20 hover:border-white/40">
-                  Browse Courses
-                </Link>
-              </div>
+      {/* ─── Footer ──────────────────────────────────────────────────────────── */}
+      <footer className="border-t border-white/10 py-10 px-4">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+              <Zap className="w-3.5 h-3.5 text-white" />
             </div>
+            <span className="font-bold gradient-text">LearnPro</span>
           </div>
+          <p className="text-white/30 text-sm">
+            © {new Date().getFullYear()} LearnPro EdTech Platform. Built for learners.
+          </p>
         </div>
-      </section>
-    </main>
-  )
+      </footer>
+    </div>
+  );
 }

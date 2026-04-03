@@ -1,30 +1,65 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import api from '../utils/api';
 
-const AuthContext = createContext(null)
+const AuthContext = createContext(null);
 
-const MOCK_USER = {
-  _id:   'mock_user_anubhab',
-  name:  'Anubhab',
-  email: 'anubhab@learnpro.dev',
-  role:  'student',
-}
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // true on first mount
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(MOCK_USER)
+  // ─── Hydrate from localStorage on first load ─────────────────────────────────
+  useEffect(() => {
+    const token = localStorage.getItem('learnpro_token');
+    const savedUser = localStorage.getItem('learnpro_user');
 
-  const login    = async () => setUser(MOCK_USER)
-  const register = async () => setUser(MOCK_USER)
-  const logout   = ()       => setUser(MOCK_USER)
+    if (token && savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch {
+        localStorage.removeItem('learnpro_user');
+        localStorage.removeItem('learnpro_token');
+      }
+    }
+    setLoading(false);
+  }, []);
+
+  // ─── Register ────────────────────────────────────────────────────────────────
+  const register = useCallback(async ({ email, password }) => {
+    const { data } = await api.post('/api/auth/register', { email, password });
+    localStorage.setItem('learnpro_token', data.token);
+    localStorage.setItem('learnpro_user', JSON.stringify(data.user));
+    setUser(data.user);
+    return data;
+  }, []);
+
+  // ─── Login ───────────────────────────────────────────────────────────────────
+  const login = useCallback(async ({ email, password }) => {
+    const { data } = await api.post('/api/auth/login', { email, password });
+    localStorage.setItem('learnpro_token', data.token);
+    localStorage.setItem('learnpro_user', JSON.stringify(data.user));
+    setUser(data.user);
+    return data;
+  }, []);
+
+  // ─── Logout ──────────────────────────────────────────────────────────────────
+  const logout = useCallback(() => {
+    localStorage.removeItem('learnpro_token');
+    localStorage.removeItem('learnpro_user');
+    setUser(null);
+  }, []);
+
+  // ─── Check if logged in ───────────────────────────────────────────────────────
+  const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, loading: false, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, isAuthenticated, register, login, logout }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export function useAuth() {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuth must be inside AuthProvider')
-  return ctx
-}
+export const useAuth = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used inside AuthProvider');
+  return ctx;
+};
